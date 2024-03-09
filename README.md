@@ -1,7 +1,3 @@
-# Welcome to streamlit
+# Analyzing traffic stop patterns
 
-This is the app you get when you run `streamlit hello`, extracted as its own app.
-
-Edit [Hello.py](./Hello.py) to customize this app to your heart's desire. ❤️
-
-Check it out on [Streamlit Community Cloud](https://st-hello-app.streamlit.app/)
+Run the app [here](https://stopstats--analyzing-traffic-stop-patterns-jodnfqllyzzsjgqd88c.streamlit.app/)!
