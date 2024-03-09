@@ -33,7 +33,7 @@ def get_data():
     # turn timestamp into string to be json compatible
     stop_data['date_time'] = stop_data['date_time'].astype(str)
 
-    return census_data, stop_data.head(10000)
+    return census_data, stop_data.head(5000)
 
 def generate_map_for_race(census_gdf, stop_gdf, demographic_var):
     '''
