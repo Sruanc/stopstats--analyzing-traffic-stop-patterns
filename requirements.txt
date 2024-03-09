@@ -6,4 +6,4 @@ streamlit
 geopandas
 folium
 streamlit-folium
-matplotlib
+matplotlib.pylot
