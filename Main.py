@@ -34,7 +34,7 @@ st.write("Join us on a journey through data-driven analysis as we uncover the in
 st.markdown("""
 ### Want to learn more?
 - Check out the [Stanford Open Policing Project](https://openpolicing.stanford.edu/)
-- Dive into our [analysis results](#) (replace "#" with our analysis link)
+
 """)
 
 # Footer
