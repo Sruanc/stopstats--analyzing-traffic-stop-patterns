@@ -35,7 +35,7 @@ def get_data():
 
     return census_data, stop_data.head(10000)
 
-def generate_map_for_race(census_gdf, stop_gdf, demographic_var, race):
+def generate_map_for_race(census_gdf, stop_gdf, demographic_var):
     '''
     generate map with base layer of demographic census data, with police stop cluster marker layer for a specific race.
     input: census_data, stop_data geodataframes, demographic variable, race
@@ -71,16 +71,16 @@ def generate_map_for_race(census_gdf, stop_gdf, demographic_var, race):
         popup=popup,
     ).add_to(m)
 
-    if pd.isnull(race):  # Check if the selected race is NaN
-        race_data = stop_gdf[pd.isnull(stop_gdf['subject_race'])]
-    else:
-        race_data = stop_gdf[stop_gdf['subject_race'] == race]  # Filter by selected race
+    # if pd.isnull(race):  # Check if the selected race is NaN
+    #     race_data = stop_gdf[pd.isnull(stop_gdf['subject_race'])]
+    # else:
+    #     race_data = stop_gdf[stop_gdf['subject_race'] == race]  # Filter by selected race
 
     marker_cluster = MarkerCluster()
-    for i in range(len(race_data)):
-        iframe = folium.IFrame("<b>Subject Race: </b> " + str(race_data.iloc[i]['subject_race']) + "<br><b>Subject Age: </b> " + str(race_data.iloc[i]['subject_age']) + "<br><b>Search Conducted: </b> " + str(race_data.iloc[i]['search_conducted']) + "<br><b>Outcome: </b> " + str(race_data.iloc[i]['outcome']), width=200, height=100)
+    for i in range(len(stop_gdf)):
+        iframe = folium.IFrame("<b>Subject Race: </b> " + str(stop_gdf.iloc[i]['subject_race']) + "<br><b>Subject Age: </b> " + str(stop_gdf.iloc[i]['subject_age']) + "<br><b>Search Conducted: </b> " + str(stop_gdf.iloc[i]['search_conducted']) + "<br><b>Outcome: </b> " + str(stop_gdf.iloc[i]['outcome']), width=200, height=100)
         marker = folium.Marker(
-            location=[race_data.iloc[i]['geometry'].y, race_data.iloc[i]['geometry'].x],
+            location=[stop_gdf.iloc[i]['geometry'].y, stop_gdf.iloc[i]['geometry'].x],
             icon=folium.Icon(color='red', icon='car', prefix='fa'),
             popup=folium.Popup(iframe, minwidth=100, maxwidth=100)
         )
@@ -101,15 +101,17 @@ def main():
     st.write("Percent of BIPOC, white, male, and below poverty level individuals in each census tract are presented on StopByRaceMap page of this app. High concentrations of BIPOC individuals are located in the Southeast portion of King County, specifically in south Seattle, as well as east of Seattle (Bellevue, Redmond). These areas also display a larger portion of individuals below the poverty level. Interestingly enough, downtown Seattle (Sodo in particular) has more male than female residents.")
 
     st.write("The distribution and count of police stops in King County were also plotted. Washington State Patrol stops are concentrated along major roadways (state highways, interstates, etc.). The census tract with the highest number of police stops is located in the Sodo neighborhood of Seattle. Interestingly enough, this is also the census tract with the highest proportion of male residents. However, stop data is not necessarily reflective of the residents who live in the census tract that they are stopped in, as travelers may be coming from any part of the county. The census tract with the most stops also touches three different major routes–SR-99, I-5, and I-90– as well as land uses which generate many trips (Lumen Field, T-Mobile Park). These transportation network and land use factors may be better explanatory factors for the high amount of stops.")
-    races = stop_gdf['subject_race'].unique()
-    selected_race = st.selectbox("Select Race", races)
+    # races = stop_gdf['subject_race'].unique()
+    # selected_race = st.selectbox("Select Race", races)
+    demographic_variables = census_gdf.columns[2:-1]
+    demographic_var = st.selectbox("Select Demographic Variable", demographic_variables)
     
     generate_map_button = st.checkbox("Generate Map")
     map_placeholder = st.empty()  # Placeholder for the map
     
     if generate_map_button:
-        st.header(f"Map for {selected_race}")
-        map_placeholder = generate_map_for_race(census_gdf, stop_gdf, demographic_var, selected_race)
+        st.header(f"Spatial distribution of {demographic_var} and police stops in King County")
+        map_placeholder = generate_map_for_race(census_gdf, stop_gdf, demographic_var)
         st.stop()  # Stop execution after generating the map
 
 if __name__ == "__main__":
