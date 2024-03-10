@@ -43,8 +43,8 @@ def generate_map_for_race(census_gdf, stop_gdf, demographic_var):
     '''
 
     colormap = branca.colormap.LinearColormap(
-        vmin=census_gdf[demographic_var].quantile(0.0),
-        vmax=census_gdf[demographic_var].quantile(1),
+        vmin=census_gdf[demographic_var].quantile(0.05),
+        vmax=census_gdf[demographic_var].quantile(0.95),
         colors=["white", "red"],
         caption=demographic_var
     )
