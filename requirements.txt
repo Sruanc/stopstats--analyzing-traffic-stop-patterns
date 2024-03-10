@@ -8,6 +8,5 @@ folium
 streamlit-folium
 matplotlib
 seaborn
-math
 plotly_express
 plotly
