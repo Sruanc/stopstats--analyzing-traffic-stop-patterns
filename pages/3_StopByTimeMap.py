@@ -45,34 +45,34 @@ def generate_map(_census_gdf, _stop_gdf, _demographic_var, _time_of_day):
     # Filter stop data based on the selected time of day
     filtered_stop_data = _stop_gdf[_stop_gdf['time_of_day'] == _time_of_day]
 
-    colormap = branca.colormap.LinearColormap(
-        vmin=_census_gdf[_demographic_var].quantile(0.0),
-        vmax=_census_gdf[_demographic_var].quantile(1),
-        colors=["white", "red"],
-        caption=_demographic_var
-    )
+    # colormap = branca.colormap.LinearColormap(
+    #     vmin=_census_gdf[_demographic_var].quantile(0.0),
+    #     vmax=_census_gdf[_demographic_var].quantile(1),
+    #     colors=["white", "red"],
+    #     caption=_demographic_var
+    # )
 
     m = folium.Map(location=[47.4405, -121.8836], zoom_start=9, prefer_canvas=True)
 
-    popup = GeoJsonPopup(
-        fields=["TractID", _demographic_var],
-        aliases=["Tract", _demographic_var],
-        localize=True,
-        labels=True,
-        style="background-color: yellow;",
-    )
+    # popup = GeoJsonPopup(
+    #     fields=["TractID", _demographic_var],
+    #     aliases=["Tract", _demographic_var],
+    #     localize=True,
+    #     labels=True,
+    #     style="background-color: yellow;",
+    # )
 
-    folium.GeoJson(
-        _census_gdf,
-        style_function=lambda x: {
-            "fillColor": colormap(x["properties"][_demographic_var])
-            if x["properties"][_demographic_var] is not None
-            else "transparent",
-            "color": "black",
-            "fillOpacity": 0.4,
-        },
-        popup=popup,
-    ).add_to(m)
+    # folium.GeoJson(
+    #     _census_gdf,
+    #     style_function=lambda x: {
+    #         "fillColor": colormap(x["properties"][_demographic_var])
+    #         if x["properties"][_demographic_var] is not None
+    #         else "transparent",
+    #         "color": "black",
+    #         "fillOpacity": 0.4,
+    #     },
+    #     popup=popup,
+    # ).add_to(m)
 
     # Create MarkerCluster for stop data
     marker_cluster = MarkerCluster()
@@ -92,9 +92,9 @@ def generate_map(_census_gdf, _stop_gdf, _demographic_var, _time_of_day):
         marker.add_to(marker_cluster)
     marker_cluster.add_to(m)
 
-    colormap.add_to(m)
-    with st.form(key='main_map'):
-        return m
+    # colormap.add_to(m)
+    # with st.form(key='main_map'):
+    return m
 
 def main():
     st.title("Police Stop Data Visualization")
@@ -126,6 +126,7 @@ def main():
 
     m = generate_map(census_gdf, stop_gdf, demographic_var, time_of_day)
     st_folium(m, width=700, height=500)
+    st.stop()
 
 if __name__ == "__main__":
     main()

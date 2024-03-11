@@ -33,9 +33,13 @@ def get_data():
     # turn timestamp into string to be json compatible
     stop_data['date_time'] = stop_data['date_time'].astype(str)
 
+    # simplify geometry
+    census_data['geometry'] = census_data['geometry'].simplify(0.0001)
+
     return census_data, stop_data
 
-def generate_map_for_race(census_gdf, stop_gdf, demographic_var):
+@st.cache_resource(experimental_allow_widgets=True)
+def generate_map_for_race(_census_gdf, _stop_gdf, _demographic_var):
     '''
     generate map with base layer of demographic census data, with police stop cluster marker layer for a specific race.
     input: census_data, stop_data geodataframes, demographic variable, race
@@ -44,25 +48,26 @@ def generate_map_for_race(census_gdf, stop_gdf, demographic_var):
     m = folium.Map(location=[47.4405, -121.8836], zoom_start=9, prefer_canvas=True)
 
     colormap = branca.colormap.LinearColormap(
-    vmin=census_gdf[demographic_var].quantile(0.05),
-    vmax=census_gdf[demographic_var].quantile(0.95),
+    vmin=_census_gdf[_demographic_var].quantile(0.05),
+    vmax=_census_gdf[_demographic_var].quantile(0.95),
     colors=["white", "red"],
-    caption=demographic_var
+    caption=_demographic_var
     )
 
-    generate_choropleth_map(census_gdf, demographic_var, colormap).add_to(m)
+    generate_choropleth_map(_census_gdf, _demographic_var, colormap).add_to(m)
 
     # if pd.isnull(race):  # Check if the selected race is NaN
     #     race_data = stop_gdf[pd.isnull(stop_gdf['subject_race'])]
     # else:
     #     race_data = stop_gdf[stop_gdf['subject_race'] == race]  # Filter by selected race
 
-    generate_marker_cluster(stop_gdf).add_to(m)
+    generate_marker_cluster(_stop_gdf).add_to(m)
 
     colormap.add_to(m)
 
     with st.form(key='main_map'):
-        return st_folium(m, width=700, height=500)
+        st.form_submit_button(disabled=True)
+    return st_folium(m, width=700, height=500)
 
 
 def generate_choropleth_map(_census_gdf, _demographic_var, _colormap):

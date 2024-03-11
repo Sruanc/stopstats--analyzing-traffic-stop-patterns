@@ -31,9 +31,10 @@ def main():
     st.write("- HappenIn(TrafficStops.StopID, CensusTracts.TractID)")
   
     image_url = 'https://github.com/Sruanc/stopstats--analyzing-traffic-stop-patterns/blob/75691cc5a93c5fdfc13c300c8003c0e874a7e110/pages/E_R_Diagram.png'
+    # image_url = 'E_R_Diagram.png'
 
     st.image(image_url, caption="E/R Diagram for the Database Design", use_column_width=True)
-    st.image(image, caption="E/R Diagram for the Database Design", use_column_width=True)
+    # st.image(image, caption="E/R Diagram for the Database Design", use_column_width=True)
     st.write("Some pre-processing was done on the data for the scatterplot analysis. The traffic stops data was aggregated by census tract, and a normalized count was performed to obtain the percentage of traffic stop subjects by each race, and by each stop activity (e.g. search, frisk, etc.) within each census tract.")
 
     # Add section for limitations
