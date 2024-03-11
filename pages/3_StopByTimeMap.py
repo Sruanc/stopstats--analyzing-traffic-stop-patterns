@@ -93,8 +93,8 @@ def generate_map(_census_gdf, _stop_gdf, _demographic_var, _time_of_day):
     marker_cluster.add_to(m)
 
     colormap.add_to(m)
-
-    return m
+    with st.form(key='main_map'):
+        return m
 
 def main():
     st.title("Police Stop Data Visualization")
