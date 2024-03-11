@@ -67,11 +67,10 @@ def generate_map_for_race(_census_gdf, _stop_gdf, _demographic_var):
 
     with st.form(key='main_map'):
         st.form_submit_button(disabled=True)
-    return st_folium(m, width=700, height=500)
+        return st_folium(m, width=700, height=500)
 
 
 def generate_choropleth_map(_census_gdf, _demographic_var, _colormap):
-
     popup = GeoJsonPopup(
     fields=["TractID", _demographic_var],
     aliases=["Tract", _demographic_var],
