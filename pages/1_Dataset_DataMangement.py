@@ -30,7 +30,7 @@ def main():
     st.write("- CensusTracts(TractID, TotalPopulation, %White, %Black, %Hispanic, %AAPI, %Other, %BIPOC, MedianAge, MedianIncome, %Male, %CollegeEducated)")
     st.write("- HappenIn(TrafficStops.StopID, CensusTracts.TractID)")
   
-    image_url = 'https://github.com/Sruanc/stopstats--analyzing-traffic-stop-patterns/blob/75691cc5a93c5fdfc13c300c8003c0e874a7e110/pages/E_R_Diagram.png'
+    image_url = 'pages/CET_522_P2_E_R_Diagram.jpg'
     # image_url = 'E_R_Diagram.png'
 
     st.image(image_url, caption="E/R Diagram for the Database Design", use_column_width=True)
