@@ -25,10 +25,18 @@ def data_header(dataframe):
 
 def interactive_race_plot(dataframe):
     st.write('The interactive scatterplot shows the relationship between two user-selected variables, aggregated by census tract. Each point represents a census tract in Washington state.')
-    x_options = ['TractPctWhite', 'TractPctBlack', 'TractPctHispanic', 'TractPctAAPI', 'TractPctOther', 'TractPctBIPOC']
-    y_options = ['StopsPctWhite', 'StopsPctBlack', 'StopsPctHispanic', 'StopsPctAAPI', 'StopsPctOther', 'StopsPctBIPOC']
-    x_axis_val = st.selectbox('Select Tract % Race (x-axis)', options=x_options)
-    y_axis_val = st.selectbox('Select Traffic Stops % Race (y-axis)', options=y_options)
+    lock_race = st.checkbox('Lock the x- and y-axis races to be the same (recommended for comparison of traffic stop and tract population percentage for the same race; uncheck to compare different races for traffic stops and tract population)', value=True)
+    if lock_race:
+        race_options = ['White', 'Black', 'Hispanic', 'AAPI', 'Other', 'BIPOC']
+        race_val = st.selectbox('Select race to plot on the x- and y-axes:', options=race_options)
+        x_axis_val = 'TractPct' + race_val
+        y_axis_val = 'StopsPct' + race_val
+    else:
+        race_options = ['White', 'Black', 'Hispanic', 'AAPI', 'Other', 'BIPOC']
+        x_axis_race = st.selectbox('Select Tract % Race (x-axis)', options=race_options)
+        y_axis_race = st.selectbox('Select Traffic Stops % Race (y-axis)', options=race_options)
+        x_axis_val = 'TractPct' + x_axis_race
+        y_axis_val = 'StopsPct' + y_axis_race
     col = st.color_picker('Select a color for the plot', '#039A3E')
 
     plot = px.scatter(dataframe, x=x_axis_val, y=y_axis_val, trendline='ols',
@@ -90,10 +98,12 @@ def interactive_race_plot(dataframe):
 ''')
 def interactive_stops_plot(dataframe):
     st.write('The interactive scatterplot shows the relationship between two user-selected variables, aggregated by census tract. Each point represents a census tract in Washington state.')
-    x_options = ['TractPctWhite', 'TractPctBlack', 'TractPctHispanic', 'TractPctAAPI', 'TractPctOther', 'TractPctBIPOC']
-    y_options = ['StopsPctSearched', 'StopsPctFrisked', 'StopsPctContrabandFound', 'StopsPctCitation', 'StopsPctWarning']
-    x_axis_val = st.selectbox('Select Tract % Race (x-axis)', options=x_options)
-    y_axis_val = st.selectbox('Select Traffic Stops % Race (y-axis)', options=y_options)
+    x_options = ['White', 'Black', 'Hispanic', 'AAPI', 'Other', 'BIPOC']
+    y_options = ['Searched', 'Frisked', 'ContrabandFound', 'Citation', 'Warning']
+    x_axis_race = st.selectbox('Select Tract % Race (x-axis)', options=x_options)
+    y_axis_activity = st.selectbox('Select Traffic Stop Activity Type (y-axis)', options=y_options)
+    x_axis_val = 'TractPct' + x_axis_race
+    y_axis_val = 'StopsPct' + y_axis_activity
     col = st.color_picker('Select a color for the plot', '#1AA5E0')
 
     plot = px.scatter(dataframe, x=x_axis_val, y=y_axis_val, trendline='ols',
